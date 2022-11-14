@@ -12,17 +12,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initializeRecycler()
+    }
+
+    private fun initializeRecycler() {
         val recyclerView: RecyclerView = findViewById(R.id.recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = CustomRecyclerAdapter(getAllApps())
-
     }
 
     private fun getAllApps(): MutableList<String> {
         val installedApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
         val apps = mutableListOf<String>()
-        for (app in installedApps) {
-            apps.add(app.packageName)
+
+        installedApps.forEach {
+            apps.add(it.packageName)
         }
 
         return apps.toMutableList()
